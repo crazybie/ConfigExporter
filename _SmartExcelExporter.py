@@ -11,8 +11,8 @@ class App:
 
 
 --------------------------------    
-例子:
-    col : int = 0 notNull
+# 例子:
+`    col : int = 0 notNull
     col : int [min(3)] *      int数组,元素最小为3
     col : int pk                            
     col : int pk key    
@@ -20,7 +20,7 @@ class App:
     col : int [max(10)]
     itemID : uint [ref(items.itemID)] = 1001    
     col : { itemID :uint = 100 ~ amount :uint ~ ratio: float[range(0,1)] }* [sum(amount) < 10 && sum(ratio) <= 1]
-
+`
 
 - 支持指定客户端和服务器
     - 文件名字带@c表明生成客户端，带@s表明生成服务器
