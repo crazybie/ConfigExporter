@@ -100,10 +100,10 @@ class TypeChecker:
 
     @classmethod
     def printCheckers(cls, o):
-        o.write('\n======= range functions =========\n')
+        o.write('\n-------- range functions --------\n')
         for k, v in sorted(cls.__dict__.iteritems()):
             if k.startswith('check_'):
-                o.write('%-10s:\n' % k.split("_")[1])
+                o.write('- %-10s:\n' % k.split("_")[1])
                 o.write(u8encode('\t%s\n' % (v.__doc__ or 'no doc')))
                 o.write('\n')
 

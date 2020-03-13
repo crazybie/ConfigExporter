@@ -6,13 +6,14 @@ from src.GeneratorSys import *
 
 class App:
     desc = u"""
-    Smart Excel Exporter    
-    【智能Excel导出工具】
+#    Smart Excel Exporter    
+#    【智能Excel导出工具】
 
 
 --------------------------------    
 # 例子:
-`    col : int = 0 notNull
+```
+    col : int = 0 notNull
     col : int [min(3)] *      int数组,元素最小为3
     col : int pk                            
     col : int pk key    
@@ -20,7 +21,7 @@ class App:
     col : int [max(10)]
     itemID : uint [ref(items.itemID)] = 1001    
     col : { itemID :uint = 100 ~ amount :uint ~ ratio: float[range(0,1)] }* [sum(amount) < 10 && sum(ratio) <= 1]
-`
+```
 
 - 支持指定客户端和服务器
     - 文件名字带@c表明生成客户端，带@s表明生成服务器
@@ -91,9 +92,9 @@ class App:
             return
 
         if self.args.genDoc:
-            with file(os.path.join(appCfg['cwd'], './doc/doc.txt'), 'w') as f:
+            with file(os.path.join(appCfg['cwd'], './doc/doc.md'), 'w') as f:
                 f.write(u8encode(self.desc))
-                f.write('\n======= List命令行帮助 ======\n')
+                f.write('\n-------- List命令行帮助 --------\n')
                 s = StringIO()
                 TypeHandler.inst.printHelp(s)
                 f.write(s.getvalue())

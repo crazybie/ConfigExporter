@@ -1,11 +1,12 @@
 
-    Smart Excel Exporter    
-    【智能Excel导出工具】
+#    Smart Excel Exporter    
+#    【智能Excel导出工具】
 
 
 --------------------------------    
 # 例子:
-`    col : int = 0 notNull
+```
+    col : int = 0 notNull
     col : int [min(3)] *      int数组,元素最小为3
     col : int pk                            
     col : int pk key    
@@ -13,7 +14,7 @@
     col : int [max(10)]
     itemID : uint [ref(items.itemID)] = 1001    
     col : { itemID :uint = 100 ~ amount :uint ~ ratio: float[range(0,1)] }* [sum(amount) < 10 && sum(ratio) <= 1]
-`
+```
 
 - 支持指定客户端和服务器
     - 文件名字带@c表明生成客户端，带@s表明生成服务器
@@ -49,104 +50,106 @@
     - 支持生成母翻译（以loc指定）
 
 
-======= List命令行帮助 ======
+-------- List命令行帮助 --------
       
-Syntax：
+### Syntax
+``` 
     colDef => colName : type qualifiers
     type => typeDef [rangeExpression] = defaultValue
     typeDef => simpleType | { colDef ~ colDef ... } | type *    
     simpleType => int | float | str ...
     *: array
+```
         
-======= types =========
-int       : <no doc>
+-------- types ---------
+- int       : <no doc>
 	 default: 0
-auto      : reuse type of other column(can cross table), e.g. col: auto typeof(<otherTable.>col)
-uint      : unsigned int
+- auto      : reuse type of other column(can cross table), e.g. col: auto typeof(<otherTable.>col)
+- uint      : unsigned int
 	 default: 0
-bool      : true: 1 or true; false: 0 or false
+- bool      : true: 1 or true; false: 0 or false
 	 default: false
-float     : <no doc>
+- float     : <no doc>
 	 default: 0.0
-str       : <no doc>
+- str       : <no doc>
 	 default: 
-object    : parse to user defined structure, usage: {f1:type ~ f2:type} [rangeCheckers]
+- object    : parse to user defined structure, usage: {f1:type ~ f2:type} [rangeCheckers]
 
-=== Custom types ===:
-loc       : str that will be generated with localization function call, eg. T("")
+-------- Custom types --------
+- loc       : str that will be generated with localization function call, eg. T("")
 	MUST have a pk field
-dateBegin : string like "2018.11.1", output js: new Date("2018.11.1 00:00:00")
-dateEnd   : string like "2018.11.1", output js: new Date("2018.11.1 23:59:59")
+- dateBegin : string like "2018.11.1", output js: new Date("2018.11.1 00:00:00")
+- dateEnd   : string like "2018.11.1", output js: new Date("2018.11.1 23:59:59")
 
-===== qualifiers ======
-pk        : has [unique, getter] attribute, primary unique id of one row, one table should has only one pk column
-key       : has [unique, getter] attribute, generate as a map with this filed as key
-unique    : has [notNull] attribute, unique in this table
-notNull   : should not be empty
-getter    : generate checked getter function
-fmt       : can use fmt expression
-comment   : wont generate anything
-map(table.col): map to another table's column
-typeof(table.col): use with auto to map to another table's column
+-------- qualifiers --------
+- pk        : has [unique, getter] attribute, primary unique id of one row, one table should has only one pk column
+- key       : has [unique, getter] attribute, generate as a map with this filed as key
+- unique    : has [notNull] attribute, unique in this table
+- notNull   : should not be empty
+- getter    : generate checked getter function
+- fmt       : can use fmt expression
+- comment   : wont generate anything
+- map(table.col): map to another table's column
+- typeof(table.col): use with auto to map to another table's column
 
-===== type alias ======
-item      : item: itemID ~ itemAmount
-audio     : audio: eventName ~ volume
-scope     : scope: min ~ max
-icon      : str value, for icon prefabs under Assets\Builds\UI\UITexture
-itemID    : itemID in items table
-optionalItemID: itemID in items table
+-------- type alias --------
+- item      : item: itemID ~ itemAmount
+- audio     : audio: eventName ~ volume
+- scope     : scope: min ~ max
+- icon      : str value, for icon prefabs under Assets\Builds\UI\UITexture
+- itemID    : itemID in items table
+- optionalItemID: itemID in items table
 
-======= range functions =========
-fileExists:
+-------- range functions --------
+- fileExists:
 	usage:
         fileExists('Assets/Builds/UI/'+value()+'.prefab')
         wont check empty str. 
 
-fileExistsUnder:
+- fileExistsUnder:
 	usage:
                 fileExistsUnder('Assets/Builds/UI/',value()+'.prefab')
                 wont check empty str. 
 
-floatEq   :
+- floatEq   :
 	no doc
 
-len       :
+- len       :
 	usage:
         len()>0 or
         len(field)>0 for object type
 
-max       :
+- max       :
 	usage: max(100)
         check if value is less than or equal to 100
 
-min       :
+- min       :
 	usage: min(0)
         check if value is lager than or equal to 0
 
-range     :
+- range     :
 	usage: range(0,100)
         check if value is in range[min,max]
 
-ref       :
+- ref       :
 	usage: ref(table.columnName)
         check if value is in target column of table
 
-refWhenNotNull:
+- refWhenNotNull:
 	usage: refWhenNotNull(table.columnName)
         like ref but only do check when value is not null.
 
-sum       :
+- sum       :
 	usage: sum(fieldName)
         return sum of specify field of the array
         
 
-unique    :
+- unique    :
 	multiple columns as a unique key,
         usage: itemID : int [unique(skillID)], unique key using (itemID, skillID).
         
 
-value     :
+- value     :
 	usage:
         value()>0 or
         value(field)>0 for object type
