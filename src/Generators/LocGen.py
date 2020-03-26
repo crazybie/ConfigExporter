@@ -7,13 +7,29 @@ class LocGen(Generator):
         self.logger.info('generating localizations..')
 
         texts = OrderedDict()
-        for name, tb in tables.iteritems():
+        uniqueTexts = set()
+        for tbName, tb in tables.iteritems():
+
             locFields = [fName for fName, f in tb.fields.iteritems() if f.type == 'loc']
+            if not locFields:
+                continue
+
+            locKeyFields = [fName for fName, f in tb.fields.iteritems() if f.locKey == 'locKey' or f.pk == 'pk']
+            assert locKeyFields, 'need pk or locKey column for table: %s' % (tbName,)
+
+            uniqueLocKeys = set()
             for r in tb.data:
+
+                locKey = tuple(str(r[i].value) for i in locKeyFields)
+                assert locKey not in uniqueLocKeys, 'loc key not unique. table:%s, row:%s' % (tbName, r.lineNo)
+                uniqueLocKeys.add(locKey)
+
                 for f in locFields:
-                    key = '%s_%s_%s' % (name, f, r[tb.pk].value)
+                    key = '_'.join([tbName, f] + list(locKey))
                     v, info = r[f]
-                    texts[key] = v
+                    if v not in uniqueTexts:
+                        texts[key] = v
+                        uniqueTexts.add(v)
 
         with file(appCfg['locPath'], 'w') as output:
             output.write('LocID,zh-CN\n')

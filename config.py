@@ -18,7 +18,6 @@ customTypes = [
         'token': 'loc',
         'doc': 'str that will be generated with localization function call, eg. T("")\n\tMUST have a pk field',
         'simpleType': True,
-        'parser': lambda x, info: x if assertExpr(info.table.pk, 'Need a pk column for loc column `%s` in %s' % (info.name, info.table.tableName)) else None,
         'lua': lambda x, i: ('T(%s)' % jsonEscape(x)).decode('utf8'),
         'js': lambda x, i: ('utils.loc(%s)' % jsonEscape(x)).decode('utf8'),
     },
@@ -42,7 +41,7 @@ typeAlias = [
         "doc": "item: itemID ~ itemAmount",
         "type": "{itemID: uint[ref(items.itemID)] ~ itemAmount: uint=1}"
     },
-	{
+    {
         "token": "audio",
         "doc": "audio: eventName ~ volume",
         "type": "{eventName: str~ volume: float = 1}"

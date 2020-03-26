@@ -86,6 +86,7 @@ class TypeHandler:
             {'token': 'comment', 'doc': 'wont generate anything'},
             {'token': 'map(table.col)', 'doc': 'map to another table\'s column'},
             {'token': 'typeof(table.col)', 'doc': 'use with auto to map to another table\'s column'},
+            {'token': 'locKey', 'doc': 'unique identity of one row for localization generation, can have multiple locKeys'},
         ]
 
         if 'typeAlias' in appCfg:
@@ -232,31 +233,29 @@ class TypeHandler:
 
     def printHelp(self, o):
         o.write("""      
-### Syntax
-``` 
+Syntax：
     colDef => colName : type qualifiers
     type => typeDef [rangeExpression] = defaultValue
     typeDef => simpleType | { colDef ~ colDef ... } | type *    
     simpleType => int | float | str ...
     *: array
-```
         """)
 
-        o.write('\n-------- types ---------\n')
+        o.write('\n======= types =========\n')
         for k, v in self.types.iteritems():
             if k:
-                o.write('- %-10s: %s\n' % (k, v['doc'] if 'doc' in v else '<no doc>'))
+                o.write('%-10s: %s\n' % (k, v['doc'] if 'doc' in v else '<no doc>'))
                 if 'default' in v:
                     o.write('\t default: %s\n' % v['default'])
             if k == 'object':
-                o.write('\n-------- Custom types --------\n')
+                o.write('\n=== Custom types ===:\n')
 
-        o.write('\n-------- qualifiers --------\n')
+        o.write('\n===== qualifiers ======\n')
         for k, v in self.qualifiers.iteritems():
-            o.write('- %-10s: %s\n' % (k, v['doc'] if 'doc' in v else '<no doc>'))
+            o.write('%-10s: %s\n' % (k, v['doc'] if 'doc' in v else '<no doc>'))
 
-        o.write('\n-------- type alias --------\n')
+        o.write('\n===== type alias ======\n')
         for k, v in self.typeAlias.iteritems():
-            o.write('- %-10s: %s\n' % (k, v['doc'] if 'doc' in v else '<no doc>'))
+            o.write('%-10s: %s\n' % (k, v['doc'] if 'doc' in v else '<no doc>'))
 
         TypeChecker.inst.printCheckers(o)
