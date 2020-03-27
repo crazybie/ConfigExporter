@@ -64,8 +64,8 @@ class TypeChecker:
 
         self.values.append([v, info])
         exprVal = self.eval_(range)
-        assert exprVal, 'range check failed: %s' % (str(range).replace('[', '').replace(']', ''))
         self.values.pop()
+        assert exprVal, 'range check failed: %s' % (str(range).replace('[', '').replace(']', ''))
 
     def eval_(self, expr):
         if isinstance(expr, (str, unicode)):

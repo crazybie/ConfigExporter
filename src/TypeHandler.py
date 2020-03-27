@@ -198,6 +198,7 @@ class TypeHandler:
             p = t['parser']
             if info.array <> '':
                 elemInfo = info.copy()
+                elemInfo.type = info.type  # copy() donot copy the type field.
                 elemInfo.array = ''
                 elemInfo.arrayRange = ''
                 elemInfo.table = info.table

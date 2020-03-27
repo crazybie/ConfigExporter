@@ -71,6 +71,7 @@ class App:
         self.args = None
         self.wbCache = {}
         self.startTime = None
+        self.debugLoadFile = None  # 'skillBasicData'
 
     def main(self):
 
@@ -127,6 +128,14 @@ class App:
 
     def enumFiles(self):
         for i in walk(appCfg['csvDir'], '*.csv'):
+
+            if self.debugLoadFile:
+                if self.debugLoadFile in i:
+                    yield i
+                    break
+                else:
+                    continue
+
             baseName = os.path.basename(i)
             if baseName.startswith('~$'):
                 continue
@@ -177,7 +186,7 @@ class App:
 
                 if filesChanged:
                     if not first:
-                        tip('\n'.join(i[1]+': '+os.path.basename(i[0]) for i in filesChanged))
+                        tip('\n'.join(i[1] + ': ' + os.path.basename(i[0]) for i in filesChanged))
                     self.onAllLoaded()
 
                 first = False

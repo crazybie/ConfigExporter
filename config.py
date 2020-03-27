@@ -8,7 +8,8 @@ clientRoot = os.path.abspath(os.path.join(cwd, r'..\..\\'))
 serverRoot = os.path.join(clientRoot, '..\\', clientRoot.split('\\')[-1].replace('client', 'server'))
 luaPath = os.path.join(clientRoot, r'Assets\Lua\Config')
 jsPath = os.path.join(serverRoot, r'game-server\app\config')
-locPath = os.path.join(clientRoot, r'Localization\zh-CN\csv.csv')
+locPath = os.path.join(clientRoot, r'Localization\zh-CN')
+csvLocFiles = 'skill dialogueData tipData items skillInitiativeData skillBasicData'.split()
 
 #######################################################
 # custom types
